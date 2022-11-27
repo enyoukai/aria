@@ -1,23 +1,77 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
-void scan_tokens(char *);
+enum TokenType
+{
+	INT,
+	PLUS,
+	MINUS,
+	STAR,
+	SLASH
+};
+
+struct Token
+{
+	int type;
+	string val;
+};
+
+void scan_tokens(string);
 
 int main()
 {
 	scan_tokens("test.aria");
 }
 
-void scan_tokens(char *filename)
+void scan_tokens(string filename)
 {
+	vector<Token> tokens;
+
 	fstream fin(filename, fstream::in);
-	char c = fin.get();
 
 	while (fin.good())
 	{
-		cout << c;
-		c = fin.get();
+		struct Token tok;
+
+		char c = fin.get();
+		while (c == ' ')
+			c = fin.get();
+
+		switch (c)
+		{
+		case EOF:
+			break;
+		case '+':
+			tok.type = PLUS;
+			break;
+		case '-':
+			tok.type = MINUS;
+			break;
+		case '*':
+			tok.type = STAR;
+			break;
+		case '/':
+			tok.type = SLASH;
+			break;
+		default:
+			tok.type = INT;
+			tok.val = c;
+		}
+		tokens.push_back(tok);
+	}
+
+	string DEBUG[] = {"INT", "PLUS", "MINUS", "STAR", "SLASH"};
+
+	for (Token t : tokens)
+	{
+		cout << DEBUG[t.type] << " : ";
+		if (t.type == INT)
+		{
+			cout << t.val;
+		}
+		cout << '\n';
 	}
 }
