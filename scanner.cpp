@@ -1,6 +1,7 @@
 #include "scanner.h"
+#include <iostream>
 
-std::vector<Token> Scanner::ScanTokens(std::string)
+void Scanner::ScanTokens(std::string source)
 {
-	
+	std::cout << source;
 }
