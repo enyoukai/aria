@@ -2,22 +2,9 @@
 #include <fstream>
 #include <vector>
 
+#include "token.h";
+
 using namespace std;
-
-enum TokenType
-{
-	INT,
-	PLUS,
-	MINUS,
-	STAR,
-	SLASH
-};
-
-struct Token
-{
-	int type;
-	string val;
-};
 
 void scan_tokens(string);
 
@@ -45,20 +32,20 @@ void scan_tokens(string filename)
 		case EOF:
 			break;
 		case '+':
-			tok.type = PLUS;
+			tok.type = Token::PLUS;
 			break;
 		case '-':
-			tok.type = MINUS;
+			tok.type = Token::MINUS;
 			break;
 		case '*':
-			tok.type = STAR;
+			tok.type = Token::STAR;
 			break;
 		case '/':
-			tok.type = SLASH;
+			tok.type = Token::SLASH;
 			break;
 		default:
-			tok.type = INT;
-			tok.val = c;
+			tok.type = Token::STRING_LITERAL;
+			tok.stringLiteral = c;
 		}
 		tokens.push_back(tok);
 	}
@@ -68,9 +55,9 @@ void scan_tokens(string filename)
 	for (Token t : tokens)
 	{
 		cout << DEBUG[t.type] << " : ";
-		if (t.type == INT)
+		if (t.type == Token::INT_LITERAL)
 		{
-			cout << t.val;
+			cout << t.stringLiteral;
 		}
 		cout << '\n';
 	}
