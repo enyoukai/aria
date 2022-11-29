@@ -11,7 +11,7 @@ void scan_tokens(string);
 
 int main()
 {
-	ifstream t("test.aria");
+	ifstream t("!test.aria");
 	stringstream buffer;
 	buffer << t.rdbuf();
 
