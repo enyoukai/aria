@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -23,7 +24,13 @@ void scan_tokens(string);
 
 int main()
 {
-	scan_tokens("test.aria");
+	ifstream t("file.txt");
+	stringstream buffer;
+	buffer << t.rdbuf();
+
+	string source = buffer.str();
+
+	cout << source;
 }
 
 void scan_tokens(string filename)
