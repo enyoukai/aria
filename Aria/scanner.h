@@ -9,10 +9,15 @@ class Scanner
 {
 
 public:
-	void ScanTokens(std::string source);
+	Scanner(std::string file);
+	void Scan(std::string source);
 
 private:
+	std::string source;
 	std::vector<Token> tokens;
+	int curPos = 0;
 
-	void ScanToken();
+	Token NextToken();
+	void Advance();
+	char Peek();
 };

@@ -11,14 +11,8 @@ void scan_tokens(string);
 
 int main()
 {
-	ifstream t("!test.aria");
-	stringstream buffer;
-	buffer << t.rdbuf();
-
-	string source = buffer.str();
-
-	Scanner scanner;
-	scanner.ScanTokens(source);
+	Scanner scanner("!test.aria");
+	scanner.Scan();
 }
 
 // void scan_tokens(string filename)

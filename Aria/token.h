@@ -10,7 +10,8 @@ struct Token
 		PLUS,
 		MINUS,
 		STAR,
-		SLASH
+		SLASH,
+		END_OF_FILE
 	};
 
 	TokenType type;
