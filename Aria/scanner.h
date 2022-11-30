@@ -21,10 +21,14 @@ private:
 	int curPos = -1;
 
 	void NextToken();
-	void Advance();
 	char Peek();
-	char ConsumeChar();
+	char NextChar();
+
 	void SkipWhitespace();
+	void ProcessInteger();
+	void ProcessIdentifier();
+	void ProcessString();
+
 	bool AtEOF();
 
 	void AddToken(Token::TokenType type, int intLiteral);

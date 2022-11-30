@@ -15,49 +15,81 @@ void Scanner::Scan()
 
 #define DEBUG
 #ifdef DEBUG
+	std::string tokenMap[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "EQUALS"};
 	for (Token t : tokens)
 	{
-		std::cout << t.type << '\n';
+		std::cout << tokenMap[t.type];
+		if (t.type == Token::INT_LITERAL)
+		{
+			std::cout << ' ' << t.intLiteral;
+		}
+		else if (t.type == Token::IDENTIFIER)
+		{
+			std::cout << ' ' << t.stringLiteral;
+		}
+		else if (t.type == Token::STRING_LITERAL)
+		{
+			std::cout << ' ' << t.stringLiteral;
+		}
+		std::cout << '\n';
 	}
 #endif
 }
 
 void Scanner::NextToken()
 {
-	char curChar = ConsumeChar();
+	char curChar = Peek();
 
 	switch (curChar)
 	{
 	case ' ':
 	case '\t':
 	case '\r':
+	case '\n':
 		SkipWhitespace();
 		break;
 
-	case EOF:
-		AddToken(Token::END_OF_FILE);
-		break;
 	case '+':
 		AddToken(Token::PLUS);
+		NextChar();
 		break;
 	case '-':
 		AddToken(Token::MINUS);
+		NextChar();
 		break;
 	case '*':
 		AddToken(Token::STAR);
+		NextChar();
 		break;
 	case '/':
 		AddToken(Token::SLASH);
+		NextChar();
+		break;
+	case '=':
+		AddToken(Token::EQUALS);
+		NextChar();
+		break;
+	case '\"':
+		ProcessString();
 		break;
 	default:
 		if (isdigit(curChar))
 		{
-			break;
+			ProcessInteger();
+		}
+		else if (isalpha(curChar))
+		{
+			ProcessIdentifier();
+		}
+		else
+		{
+			std::cout << curChar << '\n';
+			return;
 		}
 	}
 }
 
-char Scanner::ConsumeChar()
+char Scanner::NextChar()
 {
 	return fileBuffer.get();
 }
@@ -73,6 +105,22 @@ void Scanner::AddToken(Token::TokenType type)
 	tokens.push_back(tok);
 }
 
+void Scanner::AddToken(Token::TokenType type, int intLiteral)
+{
+	Token tok;
+	tok.type = type;
+	tok.intLiteral = intLiteral;
+	tokens.push_back(tok);
+}
+
+void Scanner::AddToken(Token::TokenType type, std::string stringLiteral)
+{
+	Token tok;
+	tok.type = type;
+	tok.stringLiteral = stringLiteral;
+	tokens.push_back(tok);
+}
+
 bool Scanner::AtEOF()
 {
 	return fileBuffer.peek() == EOF;
@@ -80,8 +128,53 @@ bool Scanner::AtEOF()
 
 void Scanner::SkipWhitespace()
 {
-	while (Peek() == ' ' || Peek() == '\r' || Peek() == '\t')
+	while (Peek() == ' ' || Peek() == '\r' || Peek() == '\t' || Peek() == '\n')
 	{
-		ConsumeChar();
+		NextChar();
 	}
+}
+
+void Scanner::ProcessInteger()
+{
+	std::string processed = "";
+
+	while (isdigit(Peek()))
+	{
+		processed += NextChar();
+	}
+
+	AddToken(Token::INT_LITERAL, std::stoi(processed));
+}
+
+void Scanner::ProcessIdentifier()
+{
+	std::string processed = "";
+
+	while (isalpha(Peek()))
+	{
+		processed += NextChar();
+	}
+
+	AddToken(Token::IDENTIFIER, processed);
+}
+
+void Scanner::ProcessString()
+{
+	std::string processed = "";
+
+	NextChar();
+
+	while (Peek() != '\"')
+	{
+		if (AtEOF())
+		{
+			std::cout << "UNFINISHED STRING" << '\n';
+			return;
+		}
+		processed += NextChar();
+	}
+
+	NextChar();
+
+	AddToken(Token::STRING_LITERAL, processed);
 }
