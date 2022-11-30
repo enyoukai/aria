@@ -134,6 +134,7 @@ void Scanner::SkipWhitespace()
 	}
 }
 
+// TODO: CHECK FOR BAD INPUT
 void Scanner::ProcessInteger()
 {
 	std::string processed = "";
@@ -150,7 +151,7 @@ void Scanner::ProcessIdentifier()
 {
 	std::string processed = "";
 
-	while (isalpha(Peek()))
+	while (isalnum(Peek()))
 	{
 		processed += NextChar();
 	}
