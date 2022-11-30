@@ -1,20 +1,22 @@
 #pragma once
 
+#include <string>
+
 struct Token
 {
 	enum TokenType
 	{
 		INT_LITERAL,
 		STRING_LITERAL,
-		STRING,
+		IDENTIFIER,
 		PLUS,
 		MINUS,
 		STAR,
 		SLASH,
-		END_OF_FILE
+		EQUALS
 	};
 
 	TokenType type;
 	int intLiteral;
-	int stringLiteral;
+	std::string stringLiteral;
 };
