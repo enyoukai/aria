@@ -5,42 +5,83 @@
 
 Scanner::Scanner(std::string fileName)
 {
-	std::ifstream fileStream(fileName);
-	std::stringstream buffer;
-	buffer << fileStream.rdbuf();
-
-	source = buffer.str();
+	fileBuffer = std::ifstream(fileName);
 }
 
-void Scanner::Scan(std::string source)
+void Scanner::Scan()
 {
-	Token curToken = NextToken();
+	while (!AtEOF())
+		NextToken();
 
-	while (curToken.type != Token::END_OF_FILE)
+#define DEBUG
+#ifdef DEBUG
+	for (Token t : tokens)
 	{
-		tokens.push_back(curToken);
+		std::cout << t.type << '\n';
+	}
+#endif
+}
+
+void Scanner::NextToken()
+{
+	char curChar = ConsumeChar();
+
+	switch (curChar)
+	{
+	case ' ':
+	case '\t':
+	case '\r':
+		SkipWhitespace();
+		break;
+
+	case EOF:
+		AddToken(Token::END_OF_FILE);
+		break;
+	case '+':
+		AddToken(Token::PLUS);
+		break;
+	case '-':
+		AddToken(Token::MINUS);
+		break;
+	case '*':
+		AddToken(Token::STAR);
+		break;
+	case '/':
+		AddToken(Token::SLASH);
+		break;
+	default:
+		if (isdigit(curChar))
+		{
+			break;
+		}
 	}
 }
 
-Token Scanner::NextToken()
+char Scanner::ConsumeChar()
 {
-	Token tok;
+	return fileBuffer.get();
+}
 
-	switch (source.getChar(curPos))
+char Scanner::Peek()
+{
+	return fileBuffer.peek();
+}
+
+void Scanner::AddToken(Token::TokenType type)
+{
+	Token tok = {type};
+	tokens.push_back(tok);
+}
+
+bool Scanner::AtEOF()
+{
+	return fileBuffer.peek() == EOF;
+}
+
+void Scanner::SkipWhitespace()
+{
+	while (Peek() == ' ' || Peek() == '\r' || Peek() == '\t')
 	{
-	case '+':
-		tok.type = Token::PLUS;
-		return tok;
-	case '-':
-		tok.type = Token::MINUS;
-		return tok;
-	case '*':
-		tok.type = Token::STAR;
-		return tok;
-	case '/':
-		tok.type = Token::SLASH;
-		return tok;
-	default:
-		if (isdigit())
+		ConsumeChar();
 	}
 }

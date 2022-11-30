@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
+#include <string>
 
 #include "token.h"
 
@@ -10,14 +12,22 @@ class Scanner
 
 public:
 	Scanner(std::string file);
-	void Scan(std::string source);
+	void Scan();
 
 private:
+	std::ifstream fileBuffer;
 	std::string source;
 	std::vector<Token> tokens;
-	int curPos = 0;
+	int curPos = -1;
 
-	Token NextToken();
+	void NextToken();
 	void Advance();
 	char Peek();
+	char ConsumeChar();
+	void SkipWhitespace();
+	bool AtEOF();
+
+	void AddToken(Token::TokenType type, int intLiteral);
+	void AddToken(Token::TokenType type, std::string stringLiteral);
+	void AddToken(Token::TokenType type);
 };
