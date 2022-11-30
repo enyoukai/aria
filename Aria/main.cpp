@@ -11,6 +11,6 @@ void scan_tokens(string);
 
 int main()
 {
-	Scanner scanner("!test.aria");
+	Scanner scanner("!.aria");
 	scanner.Scan();
 }
