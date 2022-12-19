@@ -16,5 +16,10 @@ int main()
 	std::vector<Token> tokens = scanner.Scan();
 
 	Parser parser(tokens);
-	ExprAST expr = parser.GenAST();
+	ExprAST ast = parser.GenAST();
+
+	std::cout << ast.Print() << '\n';
+
+	BinaryAST bin = BinaryAST(ast, ast, Token());
+	std::cout << bin.Print() << '\n';
 }
