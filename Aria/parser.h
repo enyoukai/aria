@@ -9,16 +9,16 @@ class Parser
 {
 public:
 	Parser(std::vector<Token>);
-	ExprAST GenAST();
+	std::unique_ptr<ExprAST> GenAST();
 
 private:
 	std::vector<Token> tokens;
 	int curPointer = 0;
 
-	ExprAST ParseExpr();
-	ExprAST ParseFactor();
-	ExprAST ParseTerm();
-	ExprAST ParsePrimary();
+	std::unique_ptr<ExprAST> ParseExpr();
+	std::unique_ptr<ExprAST> ParseFactor();
+	std::unique_ptr<ExprAST> ParseTerm();
+	std::unique_ptr<ExprAST> ParsePrimary();
 
 	Token Peek();
 	void Advance();

@@ -3,6 +3,7 @@
 #include "token.h"
 #include <iostream>
 #include <string>
+#include <memory>
 
 class ExprAST
 {
@@ -14,15 +15,15 @@ public:
 class BinaryAST : public ExprAST
 {
 public:
-	BinaryAST(ExprAST LHS, ExprAST RHS, Token op) : leftOp(LHS), rightOp(RHS), op(op) {}
+	BinaryAST(std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS, Token op) : leftOp(std::move(LHS)), rightOp(std::move(RHS)), op(op) {}
 	std::string Print() override
 	{
-		return "(" + leftOp.Print() + "," + rightOp.Print() + "," + std::to_string(op.type) + ")";
+		std::string TOKEN_MAP[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "EQUALS"};
+		return "(" + leftOp->Print() + "," + rightOp->Print() + "," + TOKEN_MAP[op.type] + ")";
 	}
 
 private:
-	ExprAST leftOp;
-	ExprAST rightOp;
+	std::unique_ptr<ExprAST> leftOp, rightOp;
 	Token op;
 };
 

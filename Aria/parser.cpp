@@ -3,25 +3,26 @@
 #include "token.h"
 
 #include <iostream>
+#include <memory>
 
 Parser::Parser(std::vector<Token> tokensArgs)
 {
 	tokens = tokensArgs;
 }
 
-ExprAST Parser::GenAST()
+std::unique_ptr<ExprAST> Parser::GenAST()
 {
 	return Parser::ParseExpr();
 }
 
-ExprAST Parser::ParseExpr()
+std::unique_ptr<ExprAST> Parser::ParseExpr()
 {
 	return ParseTerm();
 }
 
-ExprAST Parser::ParseTerm()
+std::unique_ptr<ExprAST> Parser::ParseTerm()
 {
-	ExprAST expr = ParseFactor();
+	std::unique_ptr<ExprAST> expr = ParseFactor();
 
 	// really janky clean later
 	while (!IsEOF() && (Peek().type == Token::PLUS || Peek().type == Token::MINUS))
@@ -29,34 +30,34 @@ ExprAST Parser::ParseTerm()
 		Token op = Peek();
 
 		Advance();
-		ExprAST RHS = ParseFactor();
+		std::unique_ptr<ExprAST> RHS = ParseFactor();
 
-		expr = BinaryAST(expr, RHS, op);
+		expr = std::make_unique<BinaryAST>(move(expr), move(RHS), op);
 	}
 
 	return expr;
 }
 
-ExprAST Parser::ParseFactor()
+std::unique_ptr<ExprAST> Parser::ParseFactor()
 {
-	ExprAST expr = ParsePrimary();
+	std::unique_ptr<ExprAST> expr = ParsePrimary();
 
 	while (!IsEOF() && (Peek().type == Token::STAR || Peek().type == Token::SLASH))
 	{
 		Token op = Peek();
 
 		Advance();
-		ExprAST RHS = ParsePrimary();
+		std::unique_ptr<ExprAST> RHS = ParsePrimary();
 
-		expr = BinaryAST(expr, RHS, op);
+		expr = std::make_unique<BinaryAST>(move(expr), move(RHS), op);
 	}
 
 	return expr;
 }
 
-ExprAST Parser::ParsePrimary()
+std::unique_ptr<ExprAST> Parser::ParsePrimary()
 {
-	ExprAST expr = PrimaryAST(Peek());
+	std::unique_ptr<ExprAST> expr = std::make_unique<PrimaryAST>(Peek());
 	Advance();
 
 	return expr;

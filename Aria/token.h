@@ -20,3 +20,4 @@ struct Token
 	int intLiteral;
 	std::string stringLiteral;
 };
+

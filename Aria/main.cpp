@@ -2,9 +2,11 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <memory>
 
 #include "scanner.h"
 #include "parser.h"
+#include "ast.h"
 
 using namespace std;
 
@@ -16,10 +18,7 @@ int main()
 	std::vector<Token> tokens = scanner.Scan();
 
 	Parser parser(tokens);
-	ExprAST ast = parser.GenAST();
+	std::unique_ptr<ExprAST> ast = parser.GenAST();
 
-	std::cout << ast.Print() << '\n';
-
-	BinaryAST bin = BinaryAST(ast, ast, Token());
-	std::cout << bin.Print() << '\n';
+	std::cout << ast->Print() << '\n';
 }
