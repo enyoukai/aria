@@ -9,7 +9,7 @@ class Parser
 {
 public:
 	Parser(std::vector<Token>);
-	void GenAST();
+	ExprAST GenAST();
 
 private:
 	std::vector<Token> tokens;
@@ -18,7 +18,10 @@ private:
 	ExprAST ParseExpr();
 	ExprAST ParseFactor();
 	ExprAST ParseTerm();
+	ExprAST ParsePrimary();
 
 	Token Peek();
 	void Advance();
+
+	bool IsEOF();
 };

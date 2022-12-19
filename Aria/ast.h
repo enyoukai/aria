@@ -16,3 +16,12 @@ private:
 	ExprAST rightOp;
 	Token op;
 };
+
+class PrimaryAST : public ExprAST
+{
+public:
+	PrimaryAST(Token value) : value(value) {}
+
+private:
+	Token value;
+};

@@ -16,5 +16,5 @@ int main()
 	std::vector<Token> tokens = scanner.Scan();
 
 	Parser parser(tokens);
-	parser.GenAST();
+	ExprAST expr = parser.GenAST();
 }
