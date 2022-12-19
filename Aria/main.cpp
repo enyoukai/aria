@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "scanner.h"
+#include "parser.h"
 
 using namespace std;
 
@@ -12,5 +13,8 @@ void scan_tokens(string);
 int main()
 {
 	Scanner scanner("!.aria");
-	scanner.Scan();
+	std::vector<Token> tokens = scanner.Scan();
+
+	Parser parser(tokens);
+	parser.GenAST();
 }

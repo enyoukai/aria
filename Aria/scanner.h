@@ -12,7 +12,7 @@ class Scanner
 
 public:
 	Scanner(std::string file);
-	void Scan();
+	std::vector<Token> Scan();
 
 private:
 	std::ifstream fileBuffer;

@@ -8,7 +8,7 @@ Scanner::Scanner(std::string fileName)
 	fileBuffer = std::ifstream(fileName);
 }
 
-void Scanner::Scan()
+std::vector<Token> Scanner::Scan()
 {
 	while (!AtEOF())
 		NextToken();
@@ -33,6 +33,8 @@ void Scanner::Scan()
 		}
 		std::cout << '\n';
 	}
+
+	return tokens;
 #endif
 }
 
@@ -142,6 +144,12 @@ void Scanner::ProcessInteger()
 	while (isdigit(Peek()))
 	{
 		processed += NextChar();
+	}
+
+	if (isalpha(Peek()))
+	{
+		std::cout << "Identifier cannot start with integer\n";
+		return;
 	}
 
 	AddToken(Token::INT_LITERAL, std::stoi(processed));
