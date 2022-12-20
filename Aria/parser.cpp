@@ -57,12 +57,12 @@ std::unique_ptr<ExprAST> Parser::ParseFactor()
 
 std::unique_ptr<ExprAST> Parser::ParsePrimary()
 {
-	std::unique_ptr<ExprAST> expr = std::make_unique<PrimaryAST>(Peek());
+	std::unique_ptr<ExprAST> expr = std::make_unique<LiteralAST>(Peek());
+
 	Advance();
 
 	return expr;
 }
-
 Token Parser::Peek()
 {
 	return tokens[curPointer];

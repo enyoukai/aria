@@ -19,7 +19,7 @@ public:
 	std::string Print() override
 	{
 		std::string TOKEN_MAP[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "EQUALS"};
-		return "(" + leftOp->Print() + "," + rightOp->Print() + "," + TOKEN_MAP[op.type] + ")";
+		return "(" + leftOp->Print() + " " + TOKEN_MAP[op.type] + " " + rightOp->Print() + ")";
 	}
 
 private:
@@ -27,13 +27,15 @@ private:
 	Token op;
 };
 
-class PrimaryAST : public ExprAST
+class LiteralAST : public ExprAST
 {
 public:
-	PrimaryAST(Token value) : value(value) {}
+	LiteralAST(Token value) : value(value) {}
 	std::string Print() override
 	{
-		return "(" + std::to_string(value.intLiteral) + ")";
+		if (value.type == Token::STRING_LITERAL)
+			return value.stringLiteral;
+		return std::to_string(value.intLiteral);
 	}
 
 private:
