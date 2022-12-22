@@ -1,12 +1,11 @@
 #include "ast.h"
 
-void ExprAST::CodeGen(){};
-void ExprAST::Accept(Visitor *visitor)
+void AST::Accept(Visitor *visitor)
 {
 	std::cerr << "debug::generic ast trying to call visitor" << std::endl;
 };
 
-BinaryAST::BinaryAST(std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS, Token op) : leftOp(std::move(LHS)), rightOp(std::move(RHS)), op(op) {}
+BinaryAST::BinaryAST(std::unique_ptr<AST> LHS, std::unique_ptr<AST> RHS, Token op) : leftOp(std::move(LHS)), rightOp(std::move(RHS)), op(op) {}
 
 void BinaryAST::Accept(Visitor *visitor)
 {

@@ -8,26 +8,25 @@
 
 class Visitor;
 
-class ExprAST
+class AST
 {
 public:
-	virtual void CodeGen();
 	virtual void Accept(Visitor *);
 };
 
-class BinaryAST : public ExprAST
+class BinaryAST : public AST
 {
 public:
-	BinaryAST(std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS, Token op);
+	BinaryAST(std::unique_ptr<AST> LHS, std::unique_ptr<AST> RHS, Token op);
 	void Accept(Visitor *) override;
 
-	std::unique_ptr<ExprAST> leftOp, rightOp;
+	std::unique_ptr<AST> leftOp, rightOp;
 	Token op;
 
 private:
 };
 
-class LiteralAST : public ExprAST
+class LiteralAST : public AST
 {
 public:
 	LiteralAST(Token value);

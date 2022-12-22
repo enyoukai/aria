@@ -19,7 +19,7 @@ int main()
 	std::vector<Token> tokens = scanner.Scan();
 
 	Parser parser(tokens);
-	std::unique_ptr<ExprAST> ast = parser.GenAST();
+	std::unique_ptr<AST> ast = parser.GenAST();
 
 	PrinterVisitor ASTPrinter;
 	ast->Accept(&ASTPrinter);

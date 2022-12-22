@@ -2,7 +2,7 @@
 
 #include "ast.h"
 
-class ExprAST;
+class AST;
 class BinaryAST;
 class LiteralAST;
 
