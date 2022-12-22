@@ -15,6 +15,8 @@ private:
 	std::vector<Token> tokens;
 	int curPointer = 0;
 
+	std::unique_ptr<AST> ParseLine();
+	std::unique_ptr<AST> ParseAssignment();
 	std::unique_ptr<AST> ParseExpr();
 	std::unique_ptr<AST> ParseFactor();
 	std::unique_ptr<AST> ParseTerm();

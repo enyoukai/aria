@@ -41,6 +41,7 @@ class VariableAST : public AST
 {
 public:
 	VariableAST(Token);
+	void Accept(Visitor *) override;
 
 	Token name;
 };
@@ -49,6 +50,7 @@ class AssignmentAST : public AST
 {
 public:
 	AssignmentAST(std::unique_ptr<VariableAST>, std::unique_ptr<AST>);
+	void Accept(Visitor *) override;
 
 	std::unique_ptr<VariableAST> variable;
 	std::unique_ptr<AST> value;

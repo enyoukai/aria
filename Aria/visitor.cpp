@@ -8,6 +8,14 @@ void Visitor::VisitLiteralAST(LiteralAST *ast)
 {
 }
 
+void Visitor::VisitVariableAST(VariableAST *ast)
+{
+}
+
+void Visitor::VisitAssignmentAST(AssignmentAST *ast)
+{
+}
+
 PrinterVisitor::PrinterVisitor()
 {
 }
@@ -33,6 +41,17 @@ void PrinterVisitor::VisitLiteralAST(LiteralAST *ast)
 		std::cout << ast->value.stringLiteral;
 	else
 		std::cerr << "Error printing out invalid type of enum: " + ast->value.type << '\n';
+}
+
+void PrinterVisitor::VisitVariableAST(VariableAST *ast)
+{
+	std::cout << "Variable(" << ast->name.stringLiteral << ")";
+}
+void PrinterVisitor::VisitAssignmentAST(AssignmentAST *ast)
+{
+	ast->variable->Accept(this);
+	std::cout << " : ";
+	ast->value->Accept(this);
 }
 
 CodeGenVisitor::CodeGenVisitor()

@@ -12,7 +12,29 @@ Parser::Parser(std::vector<Token> tokensArgs)
 
 std::unique_ptr<AST> Parser::GenAST()
 {
-	return Parser::ParseExpr();
+	return Parser::ParseLine();
+}
+
+std::unique_ptr<AST> Parser::ParseLine()
+{
+	if (Peek().type == Token::IDENTIFIER)
+	{
+		return ParseAssignment();
+	}
+
+	std::cout << "something happened";
+	return nullptr;
+}
+
+std::unique_ptr<AST> Parser::ParseAssignment()
+{
+	std::unique_ptr<VariableAST> variable = std::make_unique<VariableAST>(Peek());
+	Advance();
+	Advance(); // skipping assignment operator kinda goofy
+	std::unique_ptr<AST> expression = ParseExpr();
+
+	std::unique_ptr<AssignmentAST> assignment = std::make_unique<AssignmentAST>(std::move(variable), std::move(expression));
+	return assignment;
 }
 
 std::unique_ptr<AST> Parser::ParseExpr()

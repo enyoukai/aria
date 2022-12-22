@@ -13,7 +13,7 @@ struct Token
 		MINUS,
 		STAR,
 		SLASH,
-		EQUALS
+		ASSIGN
 	};
 
 	TokenType type;
