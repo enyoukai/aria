@@ -13,7 +13,8 @@ struct Token
 		MINUS,
 		STAR,
 		SLASH,
-		ASSIGN
+		ASSIGN,
+		SEMICOLON
 	};
 
 	TokenType type;
