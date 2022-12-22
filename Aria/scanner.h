@@ -13,6 +13,7 @@ class Scanner
 public:
 	Scanner(std::string file);
 	std::vector<Token> Scan();
+	void PrintTokens();
 
 private:
 	std::ifstream fileBuffer;

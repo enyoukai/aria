@@ -17,6 +17,7 @@ int main()
 {
 	Scanner scanner("!.aria");
 	std::vector<Token> tokens = scanner.Scan();
+	scanner.PrintTokens();
 
 	Parser parser(tokens);
 	std::unique_ptr<AST> ast = parser.GenAST();

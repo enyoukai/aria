@@ -13,8 +13,11 @@ std::vector<Token> Scanner::Scan()
 	while (!AtEOF())
 		NextToken();
 
-#define DEBUG
-#ifdef DEBUG
+	return tokens;
+}
+
+void Scanner::PrintTokens()
+{
 	std::string tokenMap[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN"};
 	for (Token t : tokens)
 	{
@@ -33,8 +36,6 @@ std::vector<Token> Scanner::Scan()
 		}
 		std::cout << '\n';
 	}
-#endif
-	return tokens;
 }
 
 void Scanner::NextToken()
