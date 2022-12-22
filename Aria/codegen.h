@@ -3,9 +3,6 @@
 #include "ast.h"
 #include "visitor.h"
 
-class CodeGenVisitor : public Visitor
-{
-};
 
 class CodeGen
 {
