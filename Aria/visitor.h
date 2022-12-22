@@ -2,6 +2,7 @@
 
 #include "ast.h"
 #include <unordered_map>
+#include "asmir.h"
 
 class AST;
 class BinaryAST;
@@ -29,7 +30,6 @@ public:
 	void VisitAssignmentAST(AssignmentAST *) override;
 };
 
-
 class CodeGenVisitor : public Visitor
 {
 public:
@@ -45,4 +45,5 @@ private:
 	int stackPointer = 0;
 	std::unordered_map<std::string, int> variableMap;
 	std::string asmOutput;
+	asmIR asmIR;
 };

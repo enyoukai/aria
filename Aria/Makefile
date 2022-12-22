@@ -1,2 +1,9 @@
-nasm -felf64 hello_world.asm
-gcc -static -o hello_world hello_world.o
+all:
+	
+asm:
+	nasm -felf64 aria.asm
+	gcc -static -o aria aria.o
+	./aria
+
+clean:
+	del *.exe *.o *.asm
