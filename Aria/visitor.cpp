@@ -58,13 +58,32 @@ CodeGenVisitor::CodeGenVisitor()
 {
 	asmOutput = "section .text\n"
 				"global _start\n"
-				"_start:";
+				"_start:\n";
 }
 
-void CodeGenVisitor::VisitBinaryAST(BinaryAST *)
+void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 {
 }
 
-void CodeGenVisitor::VisitLiteralAST(LiteralAST *)
+void CodeGenVisitor::VisitLiteralAST(LiteralAST *ast)
 {
+	asmOutput += std::to_string(ast->value.intLiteral);
+}
+
+void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
+{
+	asmOutput += "\tmov [";
+	ast->variable->Accept(this);
+	asmOutput += "],";
+	ast->value->Accept(this);
+}
+
+void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
+{
+	asmOutput += ast->name.stringLiteral;
+}
+
+void CodeGenVisitor::OutputASM()
+{
+	std::cout << asmOutput << '\n';
 }

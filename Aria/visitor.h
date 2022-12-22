@@ -29,12 +29,17 @@ public:
 	void VisitAssignmentAST(AssignmentAST *) override;
 };
 
+
 class CodeGenVisitor : public Visitor
 {
 public:
 	CodeGenVisitor();
 	void VisitBinaryAST(BinaryAST *) override;
 	void VisitLiteralAST(LiteralAST *) override;
+	void VisitVariableAST(VariableAST *) override;
+	void VisitAssignmentAST(AssignmentAST *) override;
+
+	void OutputASM();
 
 private:
 	int stackPointer = 0;

@@ -24,4 +24,8 @@ int main()
 
 	PrinterVisitor ASTPrinter;
 	ast->Accept(&ASTPrinter);
+
+	CodeGenVisitor ToASM;
+	ast->Accept(&ToASM);
+	ToASM.OutputASM();
 }
