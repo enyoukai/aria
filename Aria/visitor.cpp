@@ -56,9 +56,14 @@ void PrinterVisitor::VisitAssignmentAST(AssignmentAST *ast)
 
 CodeGenVisitor::CodeGenVisitor()
 {
-	asmOutput = "section .text\n"
-				"global _start\n"
-				"_start:\n";
+	// gonan be using gcc to link everything for now
+	asmOutput = "global main\n"
+				"section .text\n"
+				"main:\n"
+				"\tpush rbp\n"
+				"\tmov rbp, rsp\n"
+				"\tleave\n"
+				"\tret\n";
 }
 
 void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
@@ -72,7 +77,7 @@ void CodeGenVisitor::VisitLiteralAST(LiteralAST *ast)
 
 void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 {
-	asmOutput += "\tmov [";
+	asmOutput += "\tmov DWORD [";
 	ast->variable->Accept(this);
 	asmOutput += "],";
 	ast->value->Accept(this);
@@ -80,7 +85,7 @@ void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
 {
-	asmOutput += ast->name.stringLiteral;
+	asmOutput += std::to_string(stackPointer);
 }
 
 void CodeGenVisitor::OutputASM()
