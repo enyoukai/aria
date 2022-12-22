@@ -63,6 +63,7 @@ std::unique_ptr<AST> Parser::ParsePrimary()
 
 	return expr;
 }
+
 Token Parser::Peek()
 {
 	return tokens[curPointer];

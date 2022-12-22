@@ -18,3 +18,7 @@ void LiteralAST::Accept(Visitor *visitor)
 {
 	visitor->VisitLiteralAST(this);
 }
+
+VariableAST::VariableAST(Token name) : name(name) {}
+
+AssignmentAST::AssignmentAST(std::unique_ptr<VariableAST> variable, std::unique_ptr<AST> value) : variable(std::move(variable)), value(std::move(value)) {}

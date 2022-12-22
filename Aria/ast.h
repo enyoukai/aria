@@ -36,3 +36,20 @@ public:
 
 private:
 };
+
+class VariableAST : public AST
+{
+public:
+	VariableAST(Token);
+
+	Token name;
+};
+
+class AssignmentAST : public AST
+{
+public:
+	AssignmentAST(std::unique_ptr<VariableAST>, std::unique_ptr<AST>);
+
+	std::unique_ptr<VariableAST> variable;
+	std::unique_ptr<AST> value;
+};
