@@ -1,22 +1,21 @@
 #include "ast.h"
 
-std::string ExprAST::Print() { return "what"; };
 void ExprAST::CodeGen(){};
-void ExprAST::Accept(Visitor *visitor){};
+void ExprAST::Accept(Visitor *visitor)
+{
+	std::cerr << "debug::generic ast trying to call visitor" << std::endl;
+};
 
 BinaryAST::BinaryAST(std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS, Token op) : leftOp(std::move(LHS)), rightOp(std::move(RHS)), op(op) {}
-std::string BinaryAST::Print()
+
+void BinaryAST::Accept(Visitor *visitor)
 {
-	std::string TOKEN_MAP[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "EQUALS"};
-	return "(" + leftOp->Print() + " " + TOKEN_MAP[op.type] + " " + rightOp->Print() + ")";
+	visitor->VisitBinaryAST(this);
 }
-void BinaryAST::Accept(Visitor *visitor) {}
 
 LiteralAST::LiteralAST(Token value) : value(value) {}
-std::string LiteralAST::Print()
+
+void LiteralAST::Accept(Visitor *visitor)
 {
-	if (value.type == Token::STRING_LITERAL)
-		return value.stringLiteral;
-	return std::to_string(value.intLiteral);
+	visitor->VisitLiteralAST(this);
 }
-void LiteralAST::Accept(Visitor *visitor) {}

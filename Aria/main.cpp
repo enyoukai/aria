@@ -7,6 +7,7 @@
 #include "scanner.h"
 #include "parser.h"
 #include "ast.h"
+#include "visitor.h"
 
 using namespace std;
 
@@ -20,5 +21,6 @@ int main()
 	Parser parser(tokens);
 	std::unique_ptr<ExprAST> ast = parser.GenAST();
 
-	std::cout << ast->Print() << '\n';
+	PrinterVisitor ASTPrinter;
+	ast->Accept(&ASTPrinter);
 }
