@@ -79,11 +79,20 @@ std::unique_ptr<AST> Parser::ParseFactor()
 
 std::unique_ptr<AST> Parser::ParsePrimary()
 {
-	std::unique_ptr<AST> expr = std::make_unique<LiteralAST>(Peek());
-
+	Token primary = Peek();
 	Advance();
 
-	return expr;
+	if (primary.type == Token::INT_LITERAL || primary.type == Token::STRING_LITERAL)
+	{
+		return std::make_unique<LiteralAST>(primary);
+	}
+
+	else if (primary.type == Token::IDENTIFIER)
+	{
+		return std::make_unique<VariableAST>(primary);
+	}
+
+	return nullptr;
 }
 
 Token Parser::Peek()
