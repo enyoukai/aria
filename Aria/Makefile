@@ -1,6 +1,6 @@
 CC=gcc
 CXX=g++
-RM=del
+RM=rm -f
 EXT=exe
 
 all:
@@ -10,9 +10,9 @@ all:
 
 # only works on 64 bit linux
 asm:
-	nasm -felf64 out.asm
-	(CC) -static -o out.out out.o
-	./out.out
+	nasm -felf64 aria.asm
+	$(CC) -static -o aria.out aria.o
+	./aria.out
 
 clean:
-	$(RM) *.$(EXT) *.o *.asm *.out
+	$(RM) *.$(EXT) *.o *.out
