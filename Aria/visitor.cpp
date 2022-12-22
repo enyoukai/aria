@@ -56,6 +56,9 @@ void PrinterVisitor::VisitAssignmentAST(AssignmentAST *ast)
 
 CodeGenVisitor::CodeGenVisitor()
 {
+	asmOutput = "section .text\n"
+				"global _start\n"
+				"_start:";
 }
 
 void CodeGenVisitor::VisitBinaryAST(BinaryAST *)

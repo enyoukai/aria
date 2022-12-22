@@ -39,4 +39,5 @@ public:
 private:
 	int stackPointer = 0;
 	std::unordered_map<std::string, int> variableMap;
+	std::string asmOutput;
 };
