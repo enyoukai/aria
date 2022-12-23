@@ -110,6 +110,7 @@ void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
 
 void CodeGenVisitor::OutputASM()
 {
+	std::cout << "-----GENERATING ASSEMBLY-----\n";
 	std::cout << asmIR.OutputASM() << '\n';
 }
 

@@ -23,10 +23,16 @@ int main()
 	std::vector<std::unique_ptr<AST>> programAST = parser.GenAST();
 
 	PrinterVisitor ASTPrinter;
-	programAST[1]->Accept(&ASTPrinter);
+	for (int i = 0; i < programAST.size(); i++)
+	{
+		programAST[i]->Accept(&ASTPrinter);
+	}
 
 	CodeGenVisitor ToASM;
-	programAST[0]->Accept(&ToASM);
-	programAST[1]->Accept(&ToASM);
+	for (int i = 0; i < programAST.size(); i++)
+	{
+		programAST[i]->Accept(&ToASM);
+	}
+
 	ToASM.OutputASM();
 }
