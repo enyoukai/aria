@@ -107,12 +107,12 @@ void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 	int variablePointer = VariableToPointer(ast->variable->name.stringLiteral);
 	if (variablePointer == -1)
 	{
-		stackPointer += 4;
+		stackPointer += 8;
 		variablePointer = stackPointer;
 		variableStackMap.insert({ast->variable->name.stringLiteral, variablePointer});
 	}
 
-	asmIR.MOV("DWORD [rbp-" + std::to_string(variablePointer) + "]", "rax");
+	asmIR.MOV("QWORD [rbp-" + std::to_string(variablePointer) + "]", "rax");
 }
 
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
@@ -150,5 +150,5 @@ std::string CodeGenVisitor::PushRegisterAlloc()
 
 std::string CodeGenVisitor::PopRegisterAlloc()
 {
-	return CodeGenVisitor::storageRegisters[--currentRegisterAlloc];
+	return CodeGenVisitor::storageRegisters[currentRegisterAlloc--];
 }

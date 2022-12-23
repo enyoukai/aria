@@ -41,10 +41,16 @@ void Assembly::IDIV(std::string dest, std::string src)
 
 void Assembly::AddInstruction(std::string instruction, std::string LHS, std::string RHS)
 {
+#ifdef DEBUG
+	std::cerr << ('\t' + instruction + '\t' + LHS + ", " + RHS) << std::endl;
+#endif
 	instructions.push_back('\t' + instruction + '\t' + LHS + ", " + RHS + '\n');
 }
 
 void Assembly::AddInstruction(std::string instruction, std::string LHS)
 {
+#ifdef DEBUG
+	std::cerr << ('\t' + instruction + '\t' + LHS) << std::endl;
+#endif
 	instructions.push_back('\t' + instruction + '\t' + LHS + '\n');
 }
