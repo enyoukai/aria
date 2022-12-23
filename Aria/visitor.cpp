@@ -63,49 +63,41 @@ CodeGenVisitor::CodeGenVisitor()
 void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 {
 	ast->leftOp->Accept(this);
-	// int leftValue = intResult;
-	asmIR.MOV("rax", std::to_string(intResult));
+	std::string leftValue = result;
+	std::string leftRegister = PushRegisterAlloc();
+
+	asmIR.MOV(leftRegister, result);
 
 	ast->rightOp->Accept(this);
-	// int rightValue = intResult;
-	asmIR.MOV("rdx", std::to_string(intResult));
+	std::string rightValue = result;
+	std::string rightRegister = PushRegisterAlloc();
 
-	// switch (ast->op.type)
-	// {
-	// case Token::PLUS:
-	// 	intResult = leftValue + rightValue;
-	// 	break;
-	// case Token::MINUS:
-	// 	intResult = leftValue - rightValue;
-	// 	break;
-	// case Token::STAR:
-	// 	intResult = leftValue * rightValue;
-	// 	break;
-	// case Token::SLASH:
-	// 	intResult = leftValue / rightValue;
-	// 	break;
-	// }
+	asmIR.MOV(rightRegister, result);
 
 	switch (ast->op.type)
 	{
 	case Token::PLUS:
-		asmIR.ADD("rax", "rdx");
+		asmIR.ADD(leftRegister, rightRegister);
 		break;
 	case Token::MINUS:
-		asmIR.SUB("rax", "rdx");
+		asmIR.SUB(leftRegister, rightRegister);
 		break;
 	case Token::STAR:
-		asmIR.IMUL("rax", "rdx");
+		asmIR.IMUL(leftRegister, rightRegister);
 		break;
 	case Token::SLASH:
-		asmIR.IDIV("rax", "rdx");
+		asmIR.IDIV(leftRegister, rightRegister);
 		break;
 	}
+
+	PopRegisterAlloc();
+	std::cout << CurrentRegisterAlloc() << '\n';
+	result = CurrentRegisterAlloc();
 }
 
 void CodeGenVisitor::VisitLiteralAST(LiteralAST *ast)
 {
-	intResult = ast->value.intLiteral;
+	result = std::to_string(ast->value.intLiteral);
 }
 
 void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
@@ -125,6 +117,7 @@ void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
 {
+	result = "[rbp-" + std::to_string(VariableToPointer(ast->name.stringLiteral)) + "]";
 }
 
 void CodeGenVisitor::OutputASM()
@@ -145,17 +138,17 @@ int CodeGenVisitor::VariableToPointer(std::string varName)
 	}
 }
 
-std::string CodeGenVisitor::GetRegisterAlloc()
+std::string CodeGenVisitor::CurrentRegisterAlloc()
 {
-
+	return CodeGenVisitor::storageRegisters[currentRegisterAlloc];
 }
 
 std::string CodeGenVisitor::PushRegisterAlloc()
 {
-
+	return CodeGenVisitor::storageRegisters[++currentRegisterAlloc];
 }
 
 std::string CodeGenVisitor::PopRegisterAlloc()
 {
-	
+	return CodeGenVisitor::storageRegisters[--currentRegisterAlloc];
 }

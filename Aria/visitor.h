@@ -2,7 +2,7 @@
 
 #include "ast.h"
 #include <unordered_map>
-#include "asmir.h"
+#include "assembly.h"
 
 class AST;
 class BinaryAST;
@@ -44,17 +44,17 @@ public:
 private:
 	int stackPointer = 0;
 	std::unordered_map<std::string, int> variableStackMap;
-	asmIR asmIR;
+	Assembly asmIR;
 
 	std::string result;
 
 	int VariableToPointer(std::string);
 
-	std::string GetRegisterAlloc();
+	std::string CurrentRegisterAlloc();
 	std::string PushRegisterAlloc();
 	std::string PopRegisterAlloc();
 
 	const std::vector<std::string> storageRegisters = {"rax", "rbx", "rcx", "rdx"};
 
-	int currentRegisterAlloc = 0;
+	int currentRegisterAlloc = -1;
 };
