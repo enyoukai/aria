@@ -91,8 +91,8 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 	}
 
 	PopRegisterAlloc();
-	std::cout << CurrentRegisterAlloc() << '\n';
 	result = CurrentRegisterAlloc();
+	PopRegisterAlloc();
 }
 
 void CodeGenVisitor::VisitLiteralAST(LiteralAST *ast)
