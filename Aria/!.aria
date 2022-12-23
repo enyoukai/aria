@@ -1,7 +1,1 @@
-a:1 + 3 * 2;
-b:2 + 3 - 5 * 2;
-c:1 + 5 - 7;
-
-stillCantOperateOnVars:4 + 7 /2 - 3;
-
-a:5;
+a:3 * 3 + 1O;

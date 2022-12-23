@@ -3,11 +3,15 @@
 #include <string>
 #include <vector>
 
-class asmIR
+class Assembly
 {
 public:
 	std::string OutputASM();
 	void MOV(std::string, std::string);
+	void ADD(std::string, std::string);
+	void SUB(std::string, std::string);
+	void IMUL(std::string, std::string);
+	void IDIV(std::string, std::string);
 
 private:
 	std::string programEntry =

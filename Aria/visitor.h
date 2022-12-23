@@ -46,7 +46,15 @@ private:
 	std::unordered_map<std::string, int> variableStackMap;
 	asmIR asmIR;
 
-	int intResult;
+	std::string result;
 
 	int VariableToPointer(std::string);
+
+	std::string GetRegisterAlloc();
+	std::string PushRegisterAlloc();
+	std::string PopRegisterAlloc();
+
+	const std::vector<std::string> storageRegisters = {"rax", "rbx", "rcx", "rdx"};
+
+	int currentRegisterAlloc = 0;
 };
