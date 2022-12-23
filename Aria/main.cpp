@@ -20,12 +20,13 @@ int main()
 	scanner.PrintTokens();
 
 	Parser parser(tokens);
-	std::unique_ptr<AST> ast = parser.GenAST();
+	std::vector<std::unique_ptr<AST>> programAST = parser.GenAST();
 
 	PrinterVisitor ASTPrinter;
-	ast->Accept(&ASTPrinter);
+	programAST[1]->Accept(&ASTPrinter);
 
 	CodeGenVisitor ToASM;
-	ast->Accept(&ToASM);
+	programAST[0]->Accept(&ToASM);
+	programAST[1]->Accept(&ToASM);
 	ToASM.OutputASM();
 }

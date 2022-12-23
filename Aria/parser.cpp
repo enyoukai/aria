@@ -10,16 +10,26 @@ Parser::Parser(std::vector<Token> tokensArgs)
 	tokens = tokensArgs;
 }
 
-std::unique_ptr<AST> Parser::GenAST()
+std::vector<std::unique_ptr<AST>> Parser::GenAST()
 {
-	return Parser::ParseLine();
+	std::vector<std::unique_ptr<AST>> ProgramAST;
+
+	while (!IsEOF())
+	{
+		ProgramAST.push_back(std::move(Parser::ParseLine()));
+	}
+
+	return ProgramAST;
 }
 
 std::unique_ptr<AST> Parser::ParseLine()
 {
 	if (Peek().type == Token::IDENTIFIER)
 	{
-		return ParseAssignment();
+		std::unique_ptr<AST> ret = ParseAssignment();
+		Advance(); // skip semicolon
+
+		return ret;
 	}
 
 	std::cout << "something happened";

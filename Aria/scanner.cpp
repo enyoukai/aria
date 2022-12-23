@@ -74,6 +74,7 @@ void Scanner::NextToken()
 	case ';':
 		AddToken(Token::SEMICOLON);
 		NextChar();
+		break;
 	case '\"':
 		ProcessString();
 		break;

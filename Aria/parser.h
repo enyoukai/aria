@@ -9,7 +9,7 @@ class Parser
 {
 public:
 	Parser(std::vector<Token>);
-	std::unique_ptr<AST> GenAST();
+	std::vector<std::unique_ptr<AST>> GenAST();
 
 private:
 	std::vector<Token> tokens;
