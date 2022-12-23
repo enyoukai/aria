@@ -43,6 +43,10 @@ public:
 
 private:
 	int stackPointer = 0;
-	std::unordered_map<std::string, int> variableMap;
+	std::unordered_map<std::string, int> variableStackMap;
 	asmIR asmIR;
+
+	int intResult;
+
+	int VariableToPointer(std::string);
 };

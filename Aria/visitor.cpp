@@ -62,17 +62,46 @@ CodeGenVisitor::CodeGenVisitor()
 
 void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 {
+	ast->leftOp->Accept(this);
+	int leftValue = intResult;
+	ast->rightOp->Accept(this);
+	int rightValue = intResult;
+
+	switch (ast->op.type)
+	{
+	case Token::PLUS:
+		intResult = leftValue + rightValue;
+		break;
+	case Token::MINUS:
+		intResult = leftValue - rightValue;
+		break;
+	case Token::STAR:
+		intResult = leftValue * rightValue;
+		break;
+	case Token::SLASH:
+		intResult = leftValue / rightValue;
+		break;
+	}
 }
 
 void CodeGenVisitor::VisitLiteralAST(LiteralAST *ast)
 {
+	intResult = ast->value.intLiteral;
 }
 
 void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 {
-	// so goofy
-	stackPointer += 4;
-	asmIR.MOV("DWORD [rbp-" + std::to_string(stackPointer) + "]", "5");
+	ast->value->Accept(this);
+
+	int variablePointer = VariableToPointer(ast->variable->name.stringLiteral);
+	if (variablePointer == -1)
+	{
+		stackPointer += 4;
+		variablePointer = stackPointer;
+		variableStackMap.insert({ast->variable->name.stringLiteral, variablePointer});
+	}
+
+	asmIR.MOV("DWORD [rbp-" + std::to_string(variablePointer) + "]", std::to_string(intResult));
 }
 
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
@@ -82,4 +111,16 @@ void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
 void CodeGenVisitor::OutputASM()
 {
 	std::cout << asmIR.OutputASM() << '\n';
+}
+
+int CodeGenVisitor::VariableToPointer(std::string varName)
+{
+	if (variableStackMap.find(varName) == variableStackMap.end())
+	{
+		return -1;
+	}
+	else
+	{
+		return variableStackMap.at(varName);
+	}
 }

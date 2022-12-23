@@ -16,7 +16,7 @@ std::string asmIR::OutputASM()
 
 void asmIR::MOV(std::string dest, std::string src)
 {
-	AddInstruction("mov", dest, src);
+AddInstruction("mov", dest, src);
 }
 
 void asmIR::AddInstruction(std::string instruction, std::string LHS, std::string RHS)
