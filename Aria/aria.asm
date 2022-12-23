@@ -1,29 +1,19 @@
-global main
-extern printf          ; NASM requires declarations of external symbols, unlike GAS
-section .rodata         ; read only 
-    format db "What? %d", 10, 0   ; C 0-terminated string: "%#x\n"
-section .text
-
+        global  main
+        extern  puts
+        section .text
 main:
-    push rbp                  ;  prologue
-    mov rbp, rsp
-
-
-    sub rsp, 4                ; optional: space for location variable
-
-    mov DWORD [rbp - 4], 6065 ; initialize the the local variable
-
-
-    ; Call printf.
-    mov   esi,  [rbp - 4]     ; second argument
-    lea   rdi, [ format]      ; first argument
-    xor   eax, eax            ; must always be set to 0 for non-floating point data
-    call  printf
-
-    ; Return from main.
-    xor   eax, eax
-
-
-    add esp, 4                ; optional, since we created a variable, lets remove
-    leave                     ; epilogue -> mov rsp, rbp & then pop rbp
-    ret
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 3
+        mov     byte [rbp-1], 0
+        mov     byte [rbp-2], 65
+        mov     byte [rbp-3], 65
+        lea     rcx, [rbp-3]                    ; First argument is address of message
+        sub     rsp, 28h                        ; Reserve the shadow space
+        call    puts                            ; puts(message)
+        add     rsp, 28h                        ; Remove shadow space
+        mov     rsp, rbp
+        pop     rbp
+        ret
+message:
+        db      'Hello', 0                      ; C strings need a zero byte at the end

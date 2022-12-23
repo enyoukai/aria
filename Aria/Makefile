@@ -1,18 +1,23 @@
 CC=gcc
 CXX=g++
-RM=rm -f
+RM=del
 EXT=exe
 
 all:
-	$(CXX) *.cpp -o aria 
+	$(CXX) *.cpp -o aria -Wall -Wpedantic -Wextra
 	./aria.$(EXT)
 	$(RM) aria.$(EXT)
 
 # only works on 64 bit linux
 asm:
 	nasm -felf64 aria.asm
-	$(CC) -static -o aria.out aria.o
-	./aria.out
+	$(CC) -static -o aria aria.o
+	./aria
+
+asm_win:
+	nasm -felf64 aria.asm
+	$(CC) -static -o aria.exe aria.o
+	./aria.exe
 
 clean:
 	$(RM) *.$(EXT) *.o *.out

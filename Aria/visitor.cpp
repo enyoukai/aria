@@ -47,23 +47,17 @@ void PrinterVisitor::VisitVariableAST(VariableAST *ast)
 {
 	std::cout << "Variable(" << ast->name.stringLiteral << ")";
 }
+
 void PrinterVisitor::VisitAssignmentAST(AssignmentAST *ast)
 {
 	ast->variable->Accept(this);
 	std::cout << " : ";
 	ast->value->Accept(this);
+	std::cout << '\n';
 }
 
 CodeGenVisitor::CodeGenVisitor()
 {
-	// gonan be using gcc to link everything for now
-	asmOutput = "global main\n"
-				"section .text\n"
-				"main:\n"
-				"\tpush rbp\n"
-				"\tmov rbp, rsp\n"
-				"\tleave\n"
-				"\tret\n";
 }
 
 void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
@@ -72,23 +66,20 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 
 void CodeGenVisitor::VisitLiteralAST(LiteralAST *ast)
 {
-	asmOutput += std::to_string(ast->value.intLiteral);
 }
 
 void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 {
-	asmOutput += "\tmov DWORD [";
-	ast->variable->Accept(this);
-	asmOutput += "],";
-	ast->value->Accept(this);
+	// so goofy
+	stackPointer += 4;
+	asmIR.MOV("DWORD [rbp-" + std::to_string(stackPointer) + "]", "5");
 }
 
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
 {
-	asmOutput += std::to_string(stackPointer);
 }
 
 void CodeGenVisitor::OutputASM()
 {
-	std::cout << asmOutput << '\n';
+	std::cout << asmIR.OutputASM() << '\n';
 }
