@@ -80,9 +80,9 @@ public:
 class WhileAST : public AST
 {
 public:
-	WhileAST(std::unique_ptr<AST>, std::vector<std::unique_ptr<AST>> const &);
+	WhileAST(std::unique_ptr<AST>, std::vector<std::unique_ptr<AST>>);
 	void Accept(Visitor *) override;
 
 	std::unique_ptr<AST> comparison;
-	std::vector<std::unique_ptr<AST>> const &block;
+	std::vector<std::unique_ptr<AST>> block;
 };
