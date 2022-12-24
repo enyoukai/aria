@@ -88,7 +88,15 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 		asmIR.IMUL(leftRegister, rightRegister);
 		break;
 	case Token::SLASH:
+		asmIR.MOV("r8", "rdx");
+		asmIR.MOV("r9", "rax");
+		asmIR.XOR("rdx", "rdx");
+		asmIR.MOV("rax", leftRegister);
 		asmIR.IDIV(rightRegister);
+		// now we reverse
+		asmIR.MOV(leftRegister, "rax");
+		asmIR.MOV("rax", "r9");
+		asmIR.MOV("rdx", "r8");
 		break;
 	}
 
