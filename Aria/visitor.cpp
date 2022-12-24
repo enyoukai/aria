@@ -77,6 +77,17 @@ void PrinterVisitor::VisitComparisonAST(ComparisonAST *ast)
 	ast->RHS->Accept(this);
 }
 
+void PrinterVisitor::VisitWhileAST(WhileAST *ast)
+{
+	std::cout << "while (";
+	ast->comparison->Accept(this);
+	std::cout << ")\n{";
+	for (int i = 0; i < ast->block.size(); i++)
+	{
+		ast->block[i]->Accept(this);
+	}
+	std::cout << "}";
+}
 CodeGenVisitor::CodeGenVisitor()
 {
 }

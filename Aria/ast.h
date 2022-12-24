@@ -84,5 +84,5 @@ public:
 	void Accept(Visitor *) override;
 
 	std::unique_ptr<AST> comparison;
-	std::vector<std::unique_ptr<AST>> block;
+	std::vector<std::unique_ptr<AST>> const &block;
 };

@@ -35,6 +35,7 @@ public:
 	void VisitVariableAST(VariableAST *) override;
 	void VisitAssignmentAST(AssignmentAST *) override;
 	void VisitComparisonAST(ComparisonAST *) override;
+	void VisitWhileAST(WhileAST *) override;
 };
 
 class CodeGenVisitor : public Visitor
