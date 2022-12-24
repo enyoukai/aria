@@ -18,7 +18,7 @@ std::vector<Token> Scanner::Scan()
 
 void Scanner::PrintTokens()
 {
-	std::string tokenMap[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "SEMICOLON"};
+	std::string tokenMap[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "SEMICOLON", "LEFT_BRACE", "RIGHT_BRACE", "LEFT_PAREN", "RIGHT_PAREN", "WHILE"};
 	for (Token t : tokens)
 	{
 		std::cout << tokenMap[t.type];
@@ -73,6 +73,22 @@ void Scanner::NextToken()
 		break;
 	case ';':
 		AddToken(Token::SEMICOLON);
+		NextChar();
+		break;
+	case '{':
+		AddToken(Token::LEFT_BRACE);
+		NextChar();
+		break;
+	case '}':
+		AddToken(Token::RIGHT_BRACE);
+		NextChar();
+		break;
+	case '(':
+		AddToken(Token::LEFT_PAREN);
+		NextChar();
+		break;
+	case ')':
+		AddToken(Token::RIGHT_PAREN);
 		NextChar();
 		break;
 	case '\"':
@@ -168,7 +184,18 @@ void Scanner::ProcessIdentifier()
 		processed += NextChar();
 	}
 
-	AddToken(Token::IDENTIFIER, processed);
+	// TODO: PLEASE MAKE THESE STATIC CONSTS cannot figure out why i can't make these static consts without linker errors
+	const std::unordered_map<std::string, Token::TokenType> keywordMap = {
+		{"while", Token::WHILE}};
+
+	if (keywordMap.find(processed) != keywordMap.end())
+	{
+		AddToken(keywordMap.at(processed));
+	}
+	else
+	{
+		AddToken(Token::IDENTIFIER, processed);
+	}
 }
 
 void Scanner::ProcessString()

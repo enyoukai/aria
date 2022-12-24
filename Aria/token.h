@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 struct Token
 {
@@ -14,7 +15,12 @@ struct Token
 		STAR,
 		SLASH,
 		ASSIGN,
-		SEMICOLON
+		SEMICOLON,
+		LEFT_BRACE,
+		RIGHT_BRACE,
+		LEFT_PAREN,
+		RIGHT_PAREN,
+		WHILE
 	};
 
 	TokenType type;

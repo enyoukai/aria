@@ -88,7 +88,6 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 		asmIR.IMUL(leftRegister, rightRegister);
 		break;
 	case Token::SLASH:
-		asmIR.AddLabel("division");
 		asmIR.MOV("r8", "rdx");
 		asmIR.MOV("r9", "rax");
 		asmIR.XOR("rdx", "rdx");

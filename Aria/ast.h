@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
 #include "visitor.h"
 
 class Visitor;
@@ -54,4 +55,34 @@ public:
 
 	std::unique_ptr<VariableAST> variable;
 	std::unique_ptr<AST> value;
+};
+
+class ComparisonAST : public AST
+{
+public:
+	ComparisonAST(std::unique_ptr<BinaryAST>, std::unique_ptr<BinaryAST>, Token);
+	void Accept(Visitor *) override;
+
+	std::unique_ptr<BinaryAST> LHS;
+	std::unique_ptr<BinaryAST> RHS;
+	Token comparisonOp;
+};
+
+class BlockAST : public AST
+{
+public:
+	BlockAST(std::vector<std::unique_ptr<AST>>);
+	void Accept(Visitor *) override;
+
+	std::vector<std::unique_ptr<AST>> nodes;
+};
+
+class WhileAST : public AST
+{
+public:
+	WhileAST(std::unique_ptr<ComparisonAST>, std::unique_ptr<BlockAST>);
+	void Accept(Visitor *) override;
+
+	std::unique_ptr<ComparisonAST> comparison;
+	std::unique_ptr<BlockAST> block;
 };
