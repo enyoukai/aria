@@ -176,9 +176,13 @@ void CodeGenVisitor::VisitComparisonAST(ComparisonAST *ast)
 	std::string LHS = result;
 	std::cerr << "RESULT IN: " << result << std::endl;
 
+	PushRegisterAlloc();
+
 	ast->RHS->Accept(this);
 	std::string RHS = result;
 	std::cerr << "RESULT IN: " << result << std::endl;
+
+	asmIR.CMP(LHS, RHS);
 }
 
 void CodeGenVisitor::VisitWhileAST(WhileAST *ast)

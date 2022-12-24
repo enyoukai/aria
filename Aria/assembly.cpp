@@ -44,6 +44,11 @@ void Assembly::XOR(std::string dest, std::string src)
 	AddInstruction("xor", dest, src);
 }
 
+void Assembly::CMP(std::string LHS, std::string RHS)
+{
+	AddInstruction("cmp", LHS, RHS);
+}
+
 void Assembly::AddInstruction(std::string instruction, std::string LHS, std::string RHS)
 {
 #ifdef DEBUG

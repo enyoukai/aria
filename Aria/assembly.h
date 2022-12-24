@@ -13,6 +13,7 @@ public:
 	void IMUL(std::string, std::string);
 	void XOR(std::string, std::string);
 	void IDIV(std::string);
+	void CMP(std::string, std::string);
 	void AddLabel(std::string);
 	void AddInstruction(std::string, std::string);
 	void AddInstruction(std::string, std::string, std::string);
@@ -30,8 +31,6 @@ private:
 		"\tmov \trsp, rbp\n"
 		"\tpop \trbp\n"
 		"\tret\n";
-
-
 
 	std::vector<std::string> instructions;
 };
