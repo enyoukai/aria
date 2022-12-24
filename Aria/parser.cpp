@@ -26,16 +26,12 @@ std::unique_ptr<AST> Parser::ParseLine()
 {
 	if (Peek().type == Token::IDENTIFIER)
 	{
-		std::unique_ptr<AST> ret = ParseAssignment();
-
-		return ret;
+		return ParseAssignment();
 	}
 
 	if (Peek().type == Token::WHILE)
 	{
-		std::unique_ptr<AST> ret = ParseWhileLoop();
-
-		return ret;
+		return ParseWhileLoop();
 	}
 
 	std::cout << "something happened";
@@ -59,7 +55,11 @@ std::unique_ptr<AST> Parser::ParseWhileLoop()
 	}
 	Advance();
 
+	// std::unique_ptr<WhileAST> loop = std::make_unique<WhileAST>(std::move(comparison), block);
+	// std::cerr << "SIZE: " << loop->block.size() << std::endl;
+	// loop->Accept(new PrinterVisitor());
 	return std::make_unique<WhileAST>(std::move(comparison), block);
+	// return loop;
 }
 
 std::unique_ptr<AST> Parser::ParseAssignment()

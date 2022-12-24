@@ -82,6 +82,7 @@ void PrinterVisitor::VisitWhileAST(WhileAST *ast)
 	std::cout << "while (";
 	ast->comparison->Accept(this);
 	std::cout << ")\n{";
+	std::cerr << "\nSize: " << ast->block.size() << std::endl;
 	for (int i = 0; i < ast->block.size(); i++)
 	{
 		ast->block[i]->Accept(this);

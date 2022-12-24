@@ -38,7 +38,7 @@ void ComparisonAST::Accept(Visitor *visitor)
 	visitor->VisitComparisonAST(this);
 }
 
-WhileAST::WhileAST(std::unique_ptr<AST> comparison, std::vector<std::unique_ptr<AST>> const &block) : comparison(std::move(comparison)), block(std::move(block)) {}
+WhileAST::WhileAST(std::unique_ptr<AST> comparison, std::vector<std::unique_ptr<AST>> const &block) : comparison(std::move(comparison)), block(block) {}
 void WhileAST::Accept(Visitor *visitor)
 {
 	visitor->VisitWhileAST(this);
