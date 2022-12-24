@@ -46,11 +46,14 @@ public:
 	void VisitLiteralAST(LiteralAST *) override;
 	void VisitVariableAST(VariableAST *) override;
 	void VisitAssignmentAST(AssignmentAST *) override;
+	void VisitComparisonAST(ComparisonAST *) override;
+	void VisitWhileAST(WhileAST *) override;
 
 	void OutputASM();
 
 private:
 	int stackPointer = 0;
+	int loopCounter = 0;
 	std::unordered_map<std::string, int> variableStackMap;
 	Assembly asmIR;
 

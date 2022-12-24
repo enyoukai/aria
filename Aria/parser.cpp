@@ -54,7 +54,6 @@ std::unique_ptr<AST> Parser::ParseWhileLoop()
 		block.push_back(std::move(ParseLine()));
 	}
 	Advance();
-	std::cerr << block.size() << std::endl;
 
 	return std::make_unique<WhileAST>(std::move(comparison), std::move(block));
 }

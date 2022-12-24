@@ -28,11 +28,11 @@ int main()
 		programAST[i]->Accept(&ASTPrinter);
 	}
 
-	// CodeGenVisitor ToASM;
-	// for (int i = 0; i < programAST.size(); i++)
-	// {
-	// 	programAST[i]->Accept(&ToASM);
-	// }
+	CodeGenVisitor ToASM;
+	for (int i = 0; i < programAST.size(); i++)
+	{
+		programAST[i]->Accept(&ToASM);
+	}
 
-	// ToASM.OutputASM();
+	ToASM.OutputASM();
 }

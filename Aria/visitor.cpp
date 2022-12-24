@@ -138,6 +138,7 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 	}
 
 	PopRegisterAlloc();
+	// return PopRegisterAlloc();
 	result = CurrentRegisterAlloc();
 	PopRegisterAlloc();
 }
@@ -165,6 +166,23 @@ void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)
 {
 	result = "[rbp-" + std::to_string(VariableToPointer(ast->name.stringLiteral)) + "]";
+}
+
+void CodeGenVisitor::VisitComparisonAST(ComparisonAST *ast)
+{
+	// reminder for later to push registers
+
+	ast->LHS->Accept(this);
+	std::string LHS = result;
+	std::cerr << "RESULT IN: " << result << std::endl;
+
+	ast->RHS->Accept(this);
+	std::string RHS = result;
+	std::cerr << "RESULT IN: " << result << std::endl;
+}
+
+void CodeGenVisitor::VisitWhileAST(WhileAST *ast)
+{
 }
 
 void CodeGenVisitor::OutputASM()
