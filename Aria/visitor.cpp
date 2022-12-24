@@ -1,4 +1,6 @@
 #include "visitor.h"
+#define QWORD 8
+#define DWORD 4
 
 void Visitor::VisitBinaryAST(BinaryAST *ast)
 {
@@ -86,7 +88,7 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 		asmIR.IMUL(leftRegister, rightRegister);
 		break;
 	case Token::SLASH:
-		asmIR.IDIV(leftRegister, rightRegister);
+		asmIR.IDIV(rightRegister);
 		break;
 	}
 
@@ -107,7 +109,7 @@ void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 	int variablePointer = VariableToPointer(ast->variable->name.stringLiteral);
 	if (variablePointer == -1)
 	{
-		stackPointer += 8;
+		stackPointer += QWORD;
 		variablePointer = stackPointer;
 		variableStackMap.insert({ast->variable->name.stringLiteral, variablePointer});
 	}
@@ -148,6 +150,14 @@ std::string CodeGenVisitor::PushRegisterAlloc()
 	return CodeGenVisitor::storageRegisters[++currentRegisterAlloc];
 }
 
+// this is a bit of a pain to figure out because if intermediate data is stored on the stack
+// but then more local variables are created on top
+// you can't really pop just only the intermediate data
+// TODO: maybe instead have the assembly class keep track of all the variables that are allocated in scope, and then only start intermediate data from there?
+// just do something like sub 	rsp, QWORD * localVars and then push on that
+// that's really messy though i don't want the code to get mixed up between the visitor
+// idk i feel like not being able to template virtuals is making this a lot harder
+// well for now it should be fine because intermediate data only exists during binary operations so it's not like variables are gonna be assigned in that time until after or something
 std::string CodeGenVisitor::PopRegisterAlloc()
 {
 	return CodeGenVisitor::storageRegisters[currentRegisterAlloc--];

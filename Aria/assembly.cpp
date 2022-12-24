@@ -34,9 +34,14 @@ void Assembly::IMUL(std::string dest, std::string src)
 	AddInstruction("imul", dest, src);
 }
 
-void Assembly::IDIV(std::string dest, std::string src)
+void Assembly::IDIV(std::string divisor)
 {
-	AddInstruction("idiv", dest, src);
+	AddInstruction("idiv", divisor);
+}
+
+void Assembly::XOR(std::string dest, std::string src)
+{
+	AddInstruction("xor", dest, src);
 }
 
 void Assembly::AddInstruction(std::string instruction, std::string LHS, std::string RHS)

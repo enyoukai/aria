@@ -23,6 +23,7 @@ main:
         call    puts                            ; puts(message)
         add     rsp, 100  
 
+        mov     [rbp-20], eax
         mov     rsp, rbp
         pop     rbp
         ret

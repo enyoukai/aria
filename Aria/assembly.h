@@ -11,7 +11,8 @@ public:
 	void ADD(std::string, std::string);
 	void SUB(std::string, std::string);
 	void IMUL(std::string, std::string);
-	void IDIV(std::string, std::string);
+	void XOR(std::string, std::string);
+	void IDIV(std::string);
 
 private:
 	std::string programEntry =
