@@ -27,13 +27,39 @@ std::unique_ptr<AST> Parser::ParseLine()
 	if (Peek().type == Token::IDENTIFIER)
 	{
 		std::unique_ptr<AST> ret = ParseAssignment();
-		Advance(); // skip semicolon
+
+		return ret;
+	}
+
+	if (Peek().type == Token::WHILE)
+	{
+		std::unique_ptr<AST> ret = ParseWhileLoop();
 
 		return ret;
 	}
 
 	std::cout << "something happened";
 	return nullptr;
+}
+
+std::unique_ptr<AST> Parser::ParseWhileLoop()
+{
+	Advance(); // skip while
+	Advance(); // skip left paren (TODO: WHAT IS THIS please add some proper syntax validation)
+	std::unique_ptr<AST> comparison = ParseComparison();
+	Advance(); // skip right paren
+
+	std::vector<std::unique_ptr<AST>> block;
+
+	// parse block
+	Advance(); // skip left brace (TODO: i need to stop this)
+	while (Peek().type != Token::RIGHT_BRACE)
+	{
+		block.push_back(std::move(ParseLine()));
+	}
+	Advance();
+
+	return std::make_unique<WhileAST>(std::move(comparison), block);
 }
 
 std::unique_ptr<AST> Parser::ParseAssignment()
@@ -44,12 +70,30 @@ std::unique_ptr<AST> Parser::ParseAssignment()
 	std::unique_ptr<AST> expression = ParseExpr();
 
 	std::unique_ptr<AssignmentAST> assignment = std::make_unique<AssignmentAST>(std::move(variable), std::move(expression));
+
+	Advance(); // skip semicolon
 	return assignment;
 }
 
 std::unique_ptr<AST> Parser::ParseExpr()
 {
-	return ParseTerm();
+	return ParseComparison();
+}
+
+std::unique_ptr<AST> Parser::ParseComparison()
+{
+	std::unique_ptr<AST> expr = ParseTerm();
+
+	if (!IsEOF() && (Peek().type == Token::GREATER || Peek().type == Token::LESSER || Peek().type == Token::EQUALS))
+	{
+		Token comparison = Peek();
+		Advance();
+		std::unique_ptr<AST> RHS = ParseTerm();
+
+		expr = std::make_unique<ComparisonAST>(move(expr), move(RHS), comparison);
+	}
+
+	return expr;
 }
 
 std::unique_ptr<AST> Parser::ParseTerm()

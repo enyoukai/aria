@@ -9,6 +9,9 @@ class BinaryAST;
 class LiteralAST;
 class VariableAST;
 class AssignmentAST;
+class ComparisonAST;
+class WhileAST;
+class BlockAST;
 
 class Visitor
 {
@@ -17,6 +20,9 @@ public:
 	virtual void VisitLiteralAST(LiteralAST *);
 	virtual void VisitVariableAST(VariableAST *);
 	virtual void VisitAssignmentAST(AssignmentAST *);
+	virtual void VisitComparisonAST(ComparisonAST *);
+	virtual void VisitWhileAST(WhileAST *);
+	virtual void VisitBlockAST(BlockAST *);
 };
 
 class PrinterVisitor : public Visitor
@@ -28,6 +34,7 @@ public:
 	void VisitLiteralAST(LiteralAST *) override;
 	void VisitVariableAST(VariableAST *) override;
 	void VisitAssignmentAST(AssignmentAST *) override;
+	void VisitComparisonAST(ComparisonAST *) override;
 };
 
 class CodeGenVisitor : public Visitor

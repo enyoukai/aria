@@ -18,6 +18,13 @@ void Visitor::VisitAssignmentAST(AssignmentAST *ast)
 {
 }
 
+void Visitor::VisitComparisonAST(ComparisonAST *ast)
+{
+}
+
+void Visitor::VisitWhileAST(WhileAST *ast) {}
+void Visitor::VisitBlockAST(BlockAST *ast) {}
+
 PrinterVisitor::PrinterVisitor()
 {
 }
@@ -56,6 +63,18 @@ void PrinterVisitor::VisitAssignmentAST(AssignmentAST *ast)
 	std::cout << " : ";
 	ast->value->Accept(this);
 	std::cout << '\n';
+}
+
+void PrinterVisitor::VisitComparisonAST(ComparisonAST *ast)
+{
+	ast->LHS->Accept(this);
+	if (ast->comparisonOp.type == Token::GREATER)
+		std::cout << " GREATER ";
+	else if (ast->comparisonOp.type == Token::LESSER)
+		std::cout << " LESSER ";
+	else if (ast->comparisonOp.type == Token::EQUALS)
+		std::cout << " EQUALS ";
+	ast->RHS->Accept(this);
 }
 
 CodeGenVisitor::CodeGenVisitor()

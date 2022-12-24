@@ -60,11 +60,11 @@ public:
 class ComparisonAST : public AST
 {
 public:
-	ComparisonAST(std::unique_ptr<BinaryAST>, std::unique_ptr<BinaryAST>, Token);
+	ComparisonAST(std::unique_ptr<AST>, std::unique_ptr<AST>, Token);
 	void Accept(Visitor *) override;
 
-	std::unique_ptr<BinaryAST> LHS;
-	std::unique_ptr<BinaryAST> RHS;
+	std::unique_ptr<AST> LHS;
+	std::unique_ptr<AST> RHS;
 	Token comparisonOp;
 };
 
@@ -80,9 +80,9 @@ public:
 class WhileAST : public AST
 {
 public:
-	WhileAST(std::unique_ptr<ComparisonAST>, std::unique_ptr<BlockAST>);
+	WhileAST(std::unique_ptr<AST>, std::vector<std::unique_ptr<AST>> const &);
 	void Accept(Visitor *) override;
 
-	std::unique_ptr<ComparisonAST> comparison;
-	std::unique_ptr<BlockAST> block;
+	std::unique_ptr<AST> comparison;
+	std::vector<std::unique_ptr<AST>> block;
 };

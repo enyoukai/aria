@@ -19,14 +19,14 @@ int main()
 	std::vector<Token> tokens = scanner.Scan();
 	scanner.PrintTokens();
 
-	// Parser parser(tokens);
-	// std::vector<std::unique_ptr<AST>> programAST = parser.GenAST();
+	Parser parser(tokens);
+	std::vector<std::unique_ptr<AST>> programAST = parser.GenAST();
 
-	// PrinterVisitor ASTPrinter;
-	// for (int i = 0; i < programAST.size(); i++)
-	// {
-	// 	programAST[i]->Accept(&ASTPrinter);
-	// }
+	PrinterVisitor ASTPrinter;
+	for (int i = 0; i < programAST.size(); i++)
+	{
+		programAST[i]->Accept(&ASTPrinter);
+	}
 
 	// CodeGenVisitor ToASM;
 	// for (int i = 0; i < programAST.size(); i++)

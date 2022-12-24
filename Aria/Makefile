@@ -4,7 +4,7 @@ RM=del
 EXT=exe
 
 all:
-	$(CXX) *.cpp -o aria -Wall -Wpedantic -Wextra
+	$(CXX) *.cpp -o aria 
 	./aria.$(EXT)
 	$(RM) aria.$(EXT)
 

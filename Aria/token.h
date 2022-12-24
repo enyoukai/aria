@@ -20,7 +20,10 @@ struct Token
 		RIGHT_BRACE,
 		LEFT_PAREN,
 		RIGHT_PAREN,
-		WHILE
+		WHILE,
+		GREATER,
+		LESSER,
+		EQUALS
 	};
 
 	TokenType type;

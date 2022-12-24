@@ -18,7 +18,7 @@ std::vector<Token> Scanner::Scan()
 
 void Scanner::PrintTokens()
 {
-	std::string tokenMap[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "SEMICOLON", "LEFT_BRACE", "RIGHT_BRACE", "LEFT_PAREN", "RIGHT_PAREN", "WHILE"};
+	std::string tokenMap[] = {"INT_LITERAl", "STRING_LITERAL", "IDENTIFIER", "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "SEMICOLON", "LEFT_BRACE", "RIGHT_BRACE", "LEFT_PAREN", "RIGHT_PAREN", "WHILE", "GREATER", "LESSER", "EQUALS"};
 	for (Token t : tokens)
 	{
 		std::cout << tokenMap[t.type];
@@ -89,6 +89,18 @@ void Scanner::NextToken()
 		break;
 	case ')':
 		AddToken(Token::RIGHT_PAREN);
+		NextChar();
+		break;
+	case '>':
+		AddToken(Token::GREATER);
+		NextChar();
+		break;
+	case '<':
+		AddToken(Token::LESSER);
+		NextChar();
+		break;
+	case '=':
+		AddToken(Token::EQUALS);
 		NextChar();
 		break;
 	case '\"':
