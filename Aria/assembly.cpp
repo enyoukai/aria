@@ -59,3 +59,8 @@ void Assembly::AddInstruction(std::string instruction, std::string LHS)
 #endif
 	instructions.push_back('\t' + instruction + '\t' + LHS + '\n');
 }
+
+void Assembly::AddLabel(std::string label)
+{
+	instructions.push_back(label + ":\n");
+}

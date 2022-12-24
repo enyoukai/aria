@@ -13,29 +13,19 @@ main:
         mov     rbp, rsp
 
         sub     rsp, 100h                        ; Reserve the shadow space
-        mov     rax, 3
-        mov     rbx, 3
-        imul    rax, rbx
-        mov     rax, rax
-        mov     rbx, 56
-        add     rax, rbx
-        mov     QWORD [rbp-8], rax
+
+    mov     QWORD [rbp-8], 132
+        mov     QWORD [rbp-16], 2
         mov     rax, [rbp-8]
-        mov     rbx, 2
-        imul    rax, rbx
-        mov     QWORD [rbp-16], rax
-        mov     rax, [rbp-8]
-        mov     rbx, 2
+        mov     rbx, [rbp-16]
+division:
         mov     r8, rdx
         mov     r9, rax
         xor     rdx, rdx
         mov     rax, rax
         idiv    rbx
-        mov     rax, rax
-        mov     rax, r9
         mov     rdx, r8
         mov     QWORD [rbp-24], rax
-
         lea     rcx, [rbp-24]
      
         call    puts                            ; puts(message)

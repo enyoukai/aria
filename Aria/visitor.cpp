@@ -88,14 +88,21 @@ void CodeGenVisitor::VisitBinaryAST(BinaryAST *ast)
 		asmIR.IMUL(leftRegister, rightRegister);
 		break;
 	case Token::SLASH:
+		asmIR.AddLabel("division");
 		asmIR.MOV("r8", "rdx");
 		asmIR.MOV("r9", "rax");
 		asmIR.XOR("rdx", "rdx");
 		asmIR.MOV("rax", leftRegister);
 		asmIR.IDIV(rightRegister);
 		// now we reverse
-		asmIR.MOV(leftRegister, "rax");
-		asmIR.MOV("rax", "r9");
+		// really goofy but i feel like this is just a consequence of how poorly i manage my registers
+		// pls fix later
+		if (leftRegister != "rax")
+		{
+			asmIR.MOV(leftRegister, "rax");
+			asmIR.MOV("rax", "r9");
+		}
+
 		asmIR.MOV("rdx", "r8");
 		break;
 	}
@@ -122,7 +129,7 @@ void CodeGenVisitor::VisitAssignmentAST(AssignmentAST *ast)
 		variableStackMap.insert({ast->variable->name.stringLiteral, variablePointer});
 	}
 
-	asmIR.MOV("QWORD [rbp-" + std::to_string(variablePointer) + "]", "rax");
+	asmIR.MOV("QWORD [rbp-" + std::to_string(variablePointer) + "]", result);
 }
 
 void CodeGenVisitor::VisitVariableAST(VariableAST *ast)

@@ -13,6 +13,9 @@ public:
 	void IMUL(std::string, std::string);
 	void XOR(std::string, std::string);
 	void IDIV(std::string);
+	void AddLabel(std::string);
+	void AddInstruction(std::string, std::string);
+	void AddInstruction(std::string, std::string, std::string);
 
 private:
 	std::string programEntry =
@@ -28,8 +31,7 @@ private:
 		"\tpop \trbp\n"
 		"\tret\n";
 
-	void AddInstruction(std::string, std::string);
-	void AddInstruction(std::string, std::string, std::string);
+
 
 	std::vector<std::string> instructions;
 };
