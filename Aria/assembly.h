@@ -14,6 +14,9 @@ public:
 	void XOR(std::string, std::string);
 	void IDIV(std::string);
 	void CMP(std::string, std::string);
+	void JMP(std::string);
+	void JE(std::string);
+
 	void AddLabel(std::string);
 	void AddInstruction(std::string, std::string);
 	void AddInstruction(std::string, std::string, std::string);

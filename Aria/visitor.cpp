@@ -182,11 +182,38 @@ void CodeGenVisitor::VisitComparisonAST(ComparisonAST *ast)
 	std::string RHS = result;
 	std::cerr << "RESULT IN: " << result << std::endl;
 
-	asmIR.CMP(LHS, RHS);
+	asmIR.CMP("QWORD " + LHS, RHS); // ok all this is really messy
+
+	PopRegisterAlloc();
+
+	if (ast->comparisonOp.type == Token::EQUALS)
+	{
+		result = "jne";
+	}
+	else if (ast->comparisonOp.type == Token::LESSER)
+	{
+		result = "jge";
+	}
+	else if (ast->comparisonOp.type == Token::GREATER)
+	{
+		result = "jle";
+	}
 }
 
 void CodeGenVisitor::VisitWhileAST(WhileAST *ast)
 {
+	int currentLoop = loopCounter;
+	asmIR.AddLabel("L" + std::to_string(currentLoop));
+	ast->comparison->Accept(this);
+
+	asmIR.AddInstruction(result, "L" + std::to_string(currentLoop) + "_exit");
+	for (int i = 0; i < ast->block.size(); i++)
+		ast->block[i]->Accept(this);
+
+	asmIR.JMP("L" + std::to_string(currentLoop));
+	asmIR.AddLabel("L" + std::to_string(currentLoop) + "_exit");
+
+	loopCounter++;
 }
 
 void CodeGenVisitor::OutputASM()

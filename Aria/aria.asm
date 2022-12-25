@@ -11,31 +11,25 @@
 main:
         push    rbp
         mov     rbp, rsp
-
+        mov     QWORD [rbp-8], 5
+        mov     QWORD [rbp-16], 1
+L0:
+        cmp     QWORD [rbp-8], 0
+        jle     L0_exit
+        mov     rax, [rbp-16]
+        mov     rbx, [rbp-8]
+        imul    rax, rbx
+        mov     QWORD [rbp-16], rax
+        mov     rax, [rbp-8]
+        mov     rbx, 1
+        sub     rax, rbx
+        mov     QWORD [rbp-8], rax
+        jmp     L0
+L0_exit:
         sub     rsp, 100h                        ; Reserve the shadow space
 
-        mov     QWORD [rbp-8], 132
-        mov     QWORD [rbp-16], 2
-        mov     rax, [rbp-8]
-        mov     rbx, [rbp-16]
-        imul    rax, rbx
-        mov     rax, rax
-        mov     rbx, [rbp-8]
-        mov     rcx, [rbp-16]
-division:
-        mov     r8, rdx
-        mov     r9, rax
-        xor     rdx, rdx
-        mov     rax, rbx
-        idiv    rcx
-        mov     rbx, rax
-        mov     rax, r9
-        mov     rdx, r8
-        mov     rbx, rbx
-        sub     rax, rbx
-        mov     QWORD [rbp-24], rax
-        lea     rcx, [rbp-24]
-     
+        lea     rcx, [rbp-16]
+
         call    puts                            ; puts(message)
         add     rsp, 100h                        ; Remove shadow space
         mov     rsp, rbp

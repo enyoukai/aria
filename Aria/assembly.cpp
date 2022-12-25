@@ -49,6 +49,15 @@ void Assembly::CMP(std::string LHS, std::string RHS)
 	AddInstruction("cmp", LHS, RHS);
 }
 
+void Assembly::JMP(std::string label)
+{
+	AddInstruction("jmp", label);
+}
+
+void Assembly::JE(std::string label)
+{
+	AddInstruction("je", label);
+}
 void Assembly::AddInstruction(std::string instruction, std::string LHS, std::string RHS)
 {
 #ifdef DEBUG
