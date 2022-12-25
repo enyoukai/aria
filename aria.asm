@@ -1,13 +1,5 @@
-; ----------------------------------------------------------------------------------------
-; This is a Win64 console program that writes "Hello" on one line and then exits.  It
-; uses puts from the C library.  To assemble and run:
-;
-;     nasm -fwin64 hello.asm && gcc hello.obj && a
-; ----------------------------------------------------------------------------------------
-
-        global  main
-        extern  puts
-        section .text
+global main
+section .text
 main:
         push    rbp
         mov     rbp, rsp
@@ -37,14 +29,6 @@ L1_exit:
         mov     QWORD [rbp-16], rax
         jmp     L0
 L0_exit:
-        sub     rsp, 100h                        ; Reserve the shadow space
-
-        lea     rcx, [rbp-8]
-
-        call    puts                            ; puts(message)
-        add     rsp, 100h                        ; Remove shadow space
         mov     rsp, rbp
         pop     rbp
         ret
-message:
-        db      'Hello', 0                      ; C strings need a zero byte at the end
