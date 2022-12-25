@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ast.h"
+#include "ast.hpp"
 #include <unordered_map>
-#include "assembly.h"
+#include "assembly.hpp"
 
 class AST;
 class BinaryAST;

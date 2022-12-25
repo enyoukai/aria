@@ -5,7 +5,7 @@
 #include <fstream>
 #include <string>
 
-#include "token.h"
+#include "token.hpp"
 
 class Scanner
 {

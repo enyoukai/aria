@@ -1,11 +1,11 @@
 #pragma once
 
-#include "token.h"
+#include "token.hpp"
 #include <iostream>
 #include <string>
 #include <memory>
 #include <vector>
-#include "visitor.h"
+#include "visitor.hpp"
 
 class Visitor;
 

@@ -4,7 +4,7 @@ RM=del
 EXT=exe
 
 all:
-	$(CXX) *.cpp -o aria 
+	$(CXX) src/*.cpp -o aria 
 	./aria.$(EXT)
 	$(RM) aria.$(EXT)
 

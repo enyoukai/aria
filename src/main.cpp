@@ -4,10 +4,10 @@
 #include <sstream>
 #include <memory>
 
-#include "scanner.h"
-#include "parser.h"
-#include "ast.h"
-#include "visitor.h"
+#include "scanner.hpp"
+#include "parser.hpp"
+#include "ast.hpp"
+#include "visitor.hpp"
 
 using namespace std;
 

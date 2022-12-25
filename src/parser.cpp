@@ -1,6 +1,6 @@
-#include "parser.h"
-#include "ast.h"
-#include "token.h"
+#include "parser.hpp"
+#include "ast.hpp"
+#include "token.hpp"
 
 #include <iostream>
 #include <memory>

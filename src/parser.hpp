@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "ast.h"
-#include "token.h"
+#include "ast.hpp"
+#include "token.hpp"
 
 class Parser
 {
