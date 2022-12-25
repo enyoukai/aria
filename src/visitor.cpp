@@ -203,6 +203,8 @@ void CodeGenVisitor::VisitComparisonAST(ComparisonAST *ast)
 void CodeGenVisitor::VisitWhileAST(WhileAST *ast)
 {
 	int currentLoop = loopCounter;
+	loopCounter++;
+
 	asmIR.AddLabel("L" + std::to_string(currentLoop));
 	ast->comparison->Accept(this);
 
@@ -212,8 +214,6 @@ void CodeGenVisitor::VisitWhileAST(WhileAST *ast)
 
 	asmIR.JMP("L" + std::to_string(currentLoop));
 	asmIR.AddLabel("L" + std::to_string(currentLoop) + "_exit");
-
-	loopCounter++;
 }
 
 void CodeGenVisitor::OutputASM()
